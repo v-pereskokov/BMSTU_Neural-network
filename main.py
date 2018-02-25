@@ -1,12 +1,11 @@
-from flask import Flask, request
-import json
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
 
 @app.route('/magic', methods=['POST'])
 def magic():
-    return json.dumps({
+    return jsonify({
         "hello": "test"
     })
 
