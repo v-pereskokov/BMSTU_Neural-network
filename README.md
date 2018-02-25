@@ -25,7 +25,7 @@ Example:
 ### Run
 #### Install dependencies
 ```bash
-    pip install -r
+    pip install -r requirements.txt
 ```
 
 #### Start webpack
