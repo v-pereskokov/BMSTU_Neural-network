@@ -5,9 +5,7 @@ app = Flask(__name__)
 
 @app.route('/magic', methods=['POST'])
 def magic():
-    return {
-        'request data': request.data
-    }
+    return ""
 
 
 if __name__ == "__main__":
