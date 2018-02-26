@@ -1,4 +1,4 @@
-from math import exp
+from math import fabs
 
 x = [[0, 0], [0, 1], [1, 0], [1, 1]]
 y = [0, 0, 0, 1]
@@ -11,15 +11,19 @@ w1, w2, w3 = 0, 0, 0
 coef = 1
 
 
-def sigmoid(a):
-    return 1 / (1 + exp(-a))
+def activate_function_simple(net):
+    return 1 if net >= 0 else 0
+
+
+def activate_function_hardly(net):
+    return 0.5 * ((net/(1 + fabs(net))) + 1)
 
 
 for epoch in range(num_epoch):
     for i in range(3):
         print(epoch, i)
         a = train_data_x[i][0] * w1 + train_data_x[i][1] * w2 + w3
-        y = sigmoid(a)
+        y = activate_function_hardly(a)
         print('data', train_data_x[i], y)
         w1 = w1 + coef * (train_answers[i] - y) * y * (1 - y) * train_data_x[i][0]
         w2 = w2 + coef * (train_answers[i] - y) * y * (1 - y) * train_data_x[i][1]
@@ -29,5 +33,5 @@ for epoch in range(num_epoch):
 print('Done')
 
 print('Test')
-a = x[0][0] * w1 + x[0][1] * w2 + w3
-print(sigmoid(a))
+a = x[3][0] * w1 + x[3][1] * w2 + w3
+print(activate_function_hardly(a))
