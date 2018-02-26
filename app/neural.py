@@ -18,25 +18,25 @@ def activate_function_hardly(net):
 
 
 def training(w1, w2, w3):
-    coef = 0.3
+    train_coef = 0.3
 
     for epoch in range(num_epoch):
         for i in range(3):
-            print(epoch, i)
             net = train_data_x[i][0] * w1 + train_data_x[i][1] * w2 + w3
-            y = activate_function_hardly(net)
-            print('data', train_data_x[i], y)
+            y_net = activate_function_hardly(net)
+
             # TODO: check error
-            w1 = w1 + coef * (train_answers[i] - y) * y * (1 - y) * train_data_x[i][0]
-            w2 = w2 + coef * (train_answers[i] - y) * y * (1 - y) * train_data_x[i][1]
-            w3 = w3 + coef * (train_answers[i] - y) * y * (1 - y)
-            print('weights', w1, w2, w3)
+            w1 = w1 + train_coef * (train_answers[i] - y_net) * y_net * (1 - y_net) * train_data_x[i][0]
+            w2 = w2 + train_coef * (train_answers[i] - y_net) * y_net * (1 - y_net) * train_data_x[i][1]
+            w3 = w3 + train_coef * (train_answers[i] - y_net) * y_net * (1 - y_net)
+
+    return w1, w2, w3
 
 
 print('Training...')
-training(0, 0, 0, )
+tr_w1, tr_w2, tr_w3 = training(0, 0, 0)
 print('Done')
 
 print('Test')
-net = x[3][0] * w1 + x[3][1] * w2 + w3
-print(activate_function_hardly(net))
+result_net = x[3][0] * tr_w1 + x[3][1] * tr_w2 + tr_w3
+print(activate_function_hardly(result_net))
