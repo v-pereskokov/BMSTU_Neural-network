@@ -46,6 +46,7 @@ class Neural:
 
 
 neural = Neural(activate_function_hardly, 0.3)
+
 print('Training...')
 neural.training()
 print('Done')
