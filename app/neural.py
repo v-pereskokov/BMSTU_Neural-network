@@ -41,12 +41,14 @@ class Neural:
 
         return self.w1, self.w2, self.w3
 
+    def test(self):
+        return self.activate_function(x[3][0] * self.w1 + x[3][1] * self.w2 + self.w3)
+
 
 neural = Neural(activate_function_hardly, 0.3)
 print('Training...')
-tr_w1, tr_w2, tr_w3 = neural.training()
+neural.training()
 print('Done')
 
 print('Test')
-result_net = x[3][0] * tr_w1 + x[3][1] * tr_w2 + tr_w3
-print(activate_function_hardly(result_net))
+print(neural.test())
