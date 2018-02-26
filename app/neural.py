@@ -17,24 +17,34 @@ def activate_function_hardly(net):
     return 0.5 * ((net / (1 + fabs(net))) + 1)
 
 
-def training(w1, w2, w3):
-    train_coef = 0.3
+class Neural:
+    activate_function = None
+    training_nu = None
+    w1, w2, w3 = 0, 0, 0
 
-    for epoch in range(num_epoch):
-        for i in range(3):
-            net = train_data_x[i][0] * w1 + train_data_x[i][1] * w2 + w3
-            y_net = activate_function_hardly(net)
+    def __init__(self, activate_function, training_nu=1.0):
+        self.activate_function = activate_function
+        self.training_nu = training_nu
 
-            # TODO: check error
-            w1 = w1 + train_coef * (train_answers[i] - y_net) * y_net * (1 - y_net) * train_data_x[i][0]
-            w2 = w2 + train_coef * (train_answers[i] - y_net) * y_net * (1 - y_net) * train_data_x[i][1]
-            w3 = w3 + train_coef * (train_answers[i] - y_net) * y_net * (1 - y_net)
+    def training(self):
+        for epoch in range(num_epoch):
+            for i in range(3):
+                net = train_data_x[i][0] * self.w1 + train_data_x[i][1] * self.w2 + self.w3
+                out = self.activate_function(net)
 
-    return w1, w2, w3
+                # TODO: check error
+                self.w1 = self.w1 + self.training_nu * (train_answers[i] - out) * out * (1 - out) * \
+                          train_data_x[i][0]
+                self.w2 = self.w2 + self.training_nu * (train_answers[i] - out) * out * (1 - out) * \
+                          train_data_x[i][1]
+                self.w3 = self.w3 + self.training_nu * (train_answers[i] - out) * out * (1 - out)
+
+        return self.w1, self.w2, self.w3
 
 
+neural = Neural(activate_function_simple, 0.3)
 print('Training...')
-tr_w1, tr_w2, tr_w3 = training(0, 0, 0)
+tr_w1, tr_w2, tr_w3 = neural.training()
 print('Done')
 
 print('Test')
