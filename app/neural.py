@@ -25,6 +25,7 @@ for epoch in range(num_epoch):
         a = train_data_x[i][0] * w1 + train_data_x[i][1] * w2 + w3
         y = activate_function_hardly(a)
         print('data', train_data_x[i], y)
+        # TODO: check error
         w1 = w1 + coef * (train_answers[i] - y) * y * (1 - y) * train_data_x[i][0]
         w2 = w2 + coef * (train_answers[i] - y) * y * (1 - y) * train_data_x[i][1]
         w3 = w3 + coef * (train_answers[i] - y) * y * (1 - y)
