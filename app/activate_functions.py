@@ -1,5 +1,6 @@
 from math import fabs
 
+
 def activate_function_simple(net):
     return 1 if net >= 0 else 0
 
