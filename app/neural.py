@@ -1,4 +1,4 @@
-from math import fabs
+from activate_functions import activate_function_hardly
 
 x = [[0, 0], [0, 1], [1, 0], [1, 1]]
 y = [0, 0, 0, 1]
@@ -7,14 +7,6 @@ train_data_x = x[1:4]
 print(train_data_x)
 train_answers = y[1:4]
 num_epoch = 100
-
-
-def activate_function_simple(net):
-    return 1 if net >= 0 else 0
-
-
-def activate_function_hardly(net):
-    return 0.5 * ((net / (1 + fabs(net))) + 1)
 
 
 class Neural:
