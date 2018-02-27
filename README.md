@@ -28,7 +28,7 @@ Example:
     pip install -r requirements.txt
 ```
 
-#### Start webpack
+#### Start
 ```bash
     python<3> main.py 
 ```
