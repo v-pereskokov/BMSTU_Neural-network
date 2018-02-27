@@ -32,4 +32,3 @@ Example:
 ```bash
     python<3> main.py 
 ```
-
