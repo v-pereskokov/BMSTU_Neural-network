@@ -1,4 +1,4 @@
-from activate_functions import activate_function_hardly
+from activate_functions import activate_function_hardly, activate_function_simple
 
 x = [[0, 0], [0, 1], [1, 0], [1, 1]]
 y = [0, 0, 0, 1]
@@ -6,7 +6,7 @@ y = [0, 0, 0, 1]
 train_data_x = x[1:4]
 print(train_data_x)
 train_answers = y[1:4]
-num_epoch = 100
+num_epoch = 25000
 
 
 class Neural:
@@ -34,10 +34,10 @@ class Neural:
         return self.w1, self.w2, self.w3
 
     def test(self):
-        return self.activate_function(x[3][0] * self.w1 + x[3][1] * self.w2 + self.w3)
+        return self.activate_function(x[0][0] * self.w1 + x[0][1] * self.w2 + self.w3)
 
 
-neural = Neural(activate_function_hardly, 0.3)
+neural = Neural(activate_function_simple, 0.3)
 
 print('Training...')
 neural.training()
