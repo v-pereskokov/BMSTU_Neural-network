@@ -27,10 +27,4 @@ if __name__ == "__main__":
     neural = BooleanNeural(4, Z2(4).truth_table(model), activate_function_hardly, 0.3, 100000)
     neural.training()
 
-    port = None
-    try:
-        port = os.environ["PORT"]
-    except Exception:
-        port = 3000
-
-    app.run(port=port)
+    app.run()
