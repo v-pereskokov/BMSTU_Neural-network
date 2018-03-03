@@ -1,8 +1,3 @@
-from activate_functions import activate_function_hardly, activate_function_simple
-
-from z2 import Z2
-
-
 class BooleanNeural:
     vars = 2
     truth_table = None
