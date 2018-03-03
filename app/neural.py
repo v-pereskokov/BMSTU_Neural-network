@@ -37,9 +37,11 @@ class BooleanNeural:
                 net = net + self.weights[len(data)]
                 out = self.activate_function(net)
 
+                error = row[1] - out
+                print('error', error)
                 for index_weight in range(len(self.weights)):
-                    self.weights[index_weight] = self.weights[index_weight] + self.training_nu * (
-                            row[1] - out) * out * (1 - out) * (data[index_weight] if index_weight != len(data) else 1)
+                    self.weights[index_weight] = self.weights[index_weight] + self.training_nu * error * out * (
+                            1 - out) * (data[index_weight] if index_weight != len(data) else 1)
 
                 # TODO: check error
                 self.w1 = self.w1 + self.training_nu * (train_answers[i] - out) * out * (1 - out) * \
