@@ -55,31 +55,11 @@ class BooleanNeural:
         return self.activate_function(x[0][0] * self.w1 + x[0][1] * self.w2 + self.w3)
 
 
-# neural = BooleanNeural(4, activate_function_hardly, 0.3, 25000)
+neural = BooleanNeural(4, activate_function_hardly, 0.3, 25000)
 
-# print('Training...')
-# neural.training()
-# print('Done')
-#
-# print('Test')
-# print(neural.test())
+print('Training...')
+neural.training()
+print('Done')
 
-
-def model(vars):
-    return (not vars[0] or not vars[1] or not vars[2]) and (not vars[1] or not vars[2] or vars[3])
-
-
-def simple_model(vars):
-    return bool(vars[0] and vars[1])
-
-
-result = [[False] * 2] * (2 ** 2)
-for i in range(len(result)):
-    vars = result[i]
-    print(vars)
-    result[i] = simple_model(vars)
-
-    if i + 1 != len(result):
-        result[i + 1] = [False if i + 1 < 2 ** (2 - j - 1) else True for j in range(2)]
-
-print(result)
+print('Test')
+print(neural.test())
