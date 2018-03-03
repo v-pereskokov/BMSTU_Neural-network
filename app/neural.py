@@ -32,19 +32,25 @@ class BooleanNeural:
     def __training__(self):
         for epoch in range(self.epoch_number):
             for i in range(len(self.truth_table)):
-                net = 0
                 row = self.truth_table[i]
                 data = row[0]
-                for j in range(len(data)):
-                    net = net + data[j] * self.weights[j]
-                net = net + self.weights[len(data)]
+
+                net = self.__calculate_net__(data)
                 out = self.activate_function(net)
 
                 error = row[1] - out
                 print('error', error)
+
                 for index_weight in range(len(self.weights)):
                     self.weights[index_weight] = self.weights[index_weight] + self.training_nu * error * out * (
                             1 - out) * (data[index_weight] if index_weight != len(data) else 1)
+
+    def __calculate_net__(self, data):
+        net = 0
+        for j in range(len(data)):
+            net = net + data[j] * self.weights[j]
+
+        return net + self.weights[len(data)]
 
 
 neural = BooleanNeural(4, activate_function_hardly, 0.3, 25000)
