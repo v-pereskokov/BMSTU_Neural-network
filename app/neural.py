@@ -62,4 +62,4 @@ neural.training()
 print('Done')
 
 print('Test')
-print(neural.test([1, 0, 1, 1]))
+print(neural.test([1, 1]))
