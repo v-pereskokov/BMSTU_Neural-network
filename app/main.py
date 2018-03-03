@@ -24,4 +24,4 @@ if __name__ == "__main__":
     neural = BooleanNeural(4, Z2(4).truth_table(model), activate_function_hardly, 0.3, 100000)
     neural.training()
 
-    app.run(port=3000)
+    app.run(port=3001)
