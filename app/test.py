@@ -61,5 +61,5 @@ class TestTraining4Vars(unittest.TestCase):
         return neural
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
