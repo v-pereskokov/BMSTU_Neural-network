@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import json
+import os
 from activate_functions import activate_function_hardly, activate_function_simple
 from neural import BooleanNeural
 from z2 import Z2
@@ -26,4 +27,10 @@ if __name__ == "__main__":
     neural = BooleanNeural(4, Z2(4).truth_table(model), activate_function_hardly, 0.3, 100000)
     neural.training()
 
-    app.run()
+    port = None
+    try:
+        port = os.environ["PORT"]
+    except Exception:
+        port = 3000
+
+    app.run(port=port)
