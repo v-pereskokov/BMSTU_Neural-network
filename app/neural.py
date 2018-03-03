@@ -45,17 +45,3 @@ class BooleanNeural:
         for index_weight in range(len(self.weights)):
             self.weights[index_weight] = self.weights[index_weight] + self.training_nu * error * out * (
                     1 - out) * (data[index_weight] if index_weight != len(data) else 1)
-
-
-def model(vars, AND, OR, NOT):
-    return AND(OR(NOT(vars[0]), OR(NOT(vars[1]), NOT(vars[2]))), OR(NOT(vars[1]), OR(NOT(vars[2]), vars[3])))
-
-
-neural = BooleanNeural(4, Z2(4).truth_table(model), activate_function_hardly, 0.3, 100000)
-
-print('Training...')
-neural.training()
-print('Done')
-
-print('Test')
-print(neural.test([1, 1, 1, 0]))
