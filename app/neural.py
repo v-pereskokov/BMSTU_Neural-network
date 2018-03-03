@@ -14,7 +14,15 @@ class BooleanNeural:
         self.weights = [0] * (vars + 1)
 
     def test(self, vars):
-        return self.activate_function(self.__calculate_net__(vars))
+        reality = None
+        for row in self.truth_table:
+            if row[0] == vars:
+                reality = row[1][0]
+
+        return {
+            "out": self.activate_function(self.__calculate_net__(vars)),
+            "reality": reality
+        }
 
     def training(self):
         for epoch in range(self.epoch_number):
