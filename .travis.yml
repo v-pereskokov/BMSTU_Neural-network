@@ -13,7 +13,7 @@ deploy:
     secure: $HEROKU_KEY
   app: bmstu-neural-network
   on:
-    repo: vladpereskokov/BMSTU_Neural_network
+    repo: vladpereskokov/BMSTU_Neural-network
     branch: lab-01
   skip_cleanup: true
 
