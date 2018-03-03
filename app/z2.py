@@ -40,15 +40,5 @@ class Z2:
         return [[elem[i] for elem in lst] for i, lst in enumerate(tee(data, len(data[0])))]
 
 
-def test_model(vars, AND, OR, NOT):
+def model(vars, AND, OR, NOT):
     return AND(OR(NOT(vars[0]), OR(NOT(vars[1]), NOT(vars[2]))), OR(NOT(vars[1]), OR(NOT(vars[2]), vars[3])))
-
-
-def test(vars, AND, OR, NOT):
-    return AND(vars[0], vars[1])
-
-
-z2 = Z2(4)
-print('\n')
-print('\n')
-print(z2.truth_table(test_model))
