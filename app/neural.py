@@ -26,10 +26,12 @@ class BooleanNeural:
         self.weights = [0] * (vars + 1)
 
     def training(self):
-        pass
+        self.__training__()
 
-    def test(self):
-        return self.activate_function(x[0][0] * self.w1 + x[0][1] * self.w2 + self.w3)
+    def test(self, x1, x2, x3, x4):
+        print(self.weights)
+        net = self.__calculate_net__([x1, x2])
+        return self.activate_function(net)
 
     def __training__(self):
         for epoch in range(self.epoch_number):
@@ -40,8 +42,7 @@ class BooleanNeural:
                 net = self.__calculate_net__(data)
                 out = self.activate_function(net)
 
-                error = row[1] - out
-                print('error', error)
+                error = row[1][0] - out
 
                 self.__update_weights__(data, out, error)
 
@@ -62,11 +63,15 @@ def model(vars, AND, OR, NOT):
     return AND(OR(NOT(vars[0]), OR(NOT(vars[1]), NOT(vars[2]))), OR(NOT(vars[1]), OR(NOT(vars[2]), vars[3])))
 
 
-neural = BooleanNeural(4, Z2(4).truth_table(model), activate_function_hardly, 0.3, 25000)
+def tesr_model(vars, AND, OR, NOT):
+    return AND(vars[0], vars[1])
+
+
+neural = BooleanNeural(2, Z2(2).truth_table(tesr_model), activate_function_hardly, 0.3, 100000)
 
 print('Training...')
 neural.training()
 print('Done')
 
 print('Test')
-print(neural.test())
+print(neural.test(1, 0, 1, 1))
