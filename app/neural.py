@@ -8,7 +8,7 @@ print(train_data_x)
 train_answers = y[1:4]
 
 
-class Neural:
+class BooleanNeural:
     activate_function = None
     training_nu = None
     epoch_number = None
@@ -38,7 +38,7 @@ class Neural:
         return self.activate_function(x[0][0] * self.w1 + x[0][1] * self.w2 + self.w3)
 
 
-neural = Neural(activate_function_hardly, 0.3, 25000)
+neural = BooleanNeural(activate_function_hardly, 0.3, 25000)
 
 print('Training...')
 neural.training()
