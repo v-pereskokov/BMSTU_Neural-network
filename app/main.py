@@ -8,7 +8,7 @@ from z2 import Z2
 app = Flask(__name__)
 
 
-@app.route("/lazy_magic", methods=["POST"])
+@app.route("/api/v1/lab_01/lazy_magic", methods=["POST"])
 def magic_simple():
     data = json.loads(request.data)
     result = neural_simple.test(data["vars"])
@@ -25,7 +25,7 @@ def magic_simple():
     })
 
 
-@app.route("/real_magic", methods=["POST"])
+@app.route("/api/v1/lab_01/real_magic", methods=["POST"])
 def magic():
     data = json.loads(request.data)
     result = neural.test(data["vars"])
