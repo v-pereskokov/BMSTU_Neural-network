@@ -9,14 +9,14 @@ class Z2:
 
     def truth_table(self, model):
         data = self.__create_table__()
-        print(data)
         vars = self.__regroup__(data)
-        result = self.model(vars, model)
+        model_result = self.model(vars, model)
+        result = []
 
-        for row, result_cell in zip(data, result):
-            print(
-                ''.join({True: 'T', False: 'F'}[cell] for cell in row) + '|' + '  ' + {True: 'T', False: 'F'}[
-                    result_cell])
+        for row, result_cell in zip(data, model_result):
+            result.append([[{True: 1, False: 0}[cell] for cell in row], [{True: 1, False: 0}[result_cell]]])
+
+        return result
 
     def AND(self, a, b):
         for p, q in zip(a, b):
@@ -48,5 +48,7 @@ def test(vars, AND, OR, NOT):
     return AND(vars[0], vars[1])
 
 
-z2 = Z2(2)
-z2.truth_table(test)
+z2 = Z2(4)
+print('\n')
+print('\n')
+print(z2.truth_table(test_model))
