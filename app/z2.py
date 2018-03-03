@@ -38,7 +38,3 @@ class Z2:
 
     def __regroup__(self, data):
         return [[elem[i] for elem in lst] for i, lst in enumerate(tee(data, len(data[0])))]
-
-
-def model(vars, AND, OR, NOT):
-    return AND(OR(NOT(vars[0]), OR(NOT(vars[1]), NOT(vars[2]))), OR(NOT(vars[1]), OR(NOT(vars[2]), vars[3])))
