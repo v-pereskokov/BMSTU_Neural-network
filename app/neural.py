@@ -28,7 +28,7 @@ class BooleanNeural:
 
     def __training__(self):
         for epoch in range(self.epoch_number):
-            for i in range(3):
+            for i in range(len(self.truth_table)):
                 net = 0
                 data = self.truth_table[i][0]
                 for j in range(len(data)):
