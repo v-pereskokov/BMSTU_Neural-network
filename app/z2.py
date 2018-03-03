@@ -9,6 +9,7 @@ class Z2:
 
     def truth_table(self):
         data = self.__create_table__()
+        print(data)
         x1, x2 = self.__regroup__(data)
         result = self.AND(x1, x2)
 
@@ -27,3 +28,7 @@ class Z2:
 
     def __regroup__(self, data):
         return [[elem[i] for elem in lst] for i, lst in enumerate(tee(data, len(data[0])))]
+
+
+z2 = Z2(2)
+z2.truth_table()
