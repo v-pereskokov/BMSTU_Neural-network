@@ -10,9 +10,11 @@ app = Flask(__name__)
 @app.route("/magic", methods=["POST"])
 def magic():
     data = json.loads(request.data)
+    y = neural.test(data["vars"])
 
     return jsonify({
-        "result": 1 if neural.test(data["vars"]) > 0.8 else 0
+        "result": 1 if y > 0.8 else 0,
+        "probability": y
     })
 
 
