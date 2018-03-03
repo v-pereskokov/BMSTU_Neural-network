@@ -43,13 +43,6 @@ class BooleanNeural:
                     self.weights[index_weight] = self.weights[index_weight] + self.training_nu * error * out * (
                             1 - out) * (data[index_weight] if index_weight != len(data) else 1)
 
-                # TODO: check error
-                self.w1 = self.w1 + self.training_nu * (train_answers[i] - out) * out * (1 - out) * \
-                          train_data_x[i][0]
-                self.w2 = self.w2 + self.training_nu * (train_answers[i] - out) * out * (1 - out) * \
-                          train_data_x[i][1]
-                self.w3 = self.w3 + self.training_nu * (train_answers[i] - out) * out * (1 - out)
-
     def test(self):
         return self.activate_function(x[0][0] * self.w1 + x[0][1] * self.w2 + self.w3)
 
