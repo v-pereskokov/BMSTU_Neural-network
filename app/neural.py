@@ -1,13 +1,5 @@
 from activate_functions import activate_function_hardly, activate_function_simple
-
 from z2 import Z2
-
-x = [[0, 0], [0, 1], [1, 0], [1, 1]]
-y = [0, 0, 0, 1]
-
-train_data_x = x[1:4]
-# print(train_data_x)
-train_answers = y[1:4]
 
 
 class BooleanNeural:
