@@ -1,4 +1,5 @@
 from activate_functions import activate_function_hardly, activate_function_simple
+
 from z2 import Z2
 
 
@@ -17,15 +18,10 @@ class BooleanNeural:
         self.epoch_number = epoch_number
         self.weights = [0] * (vars + 1)
 
+    def test(self, vars):
+        return self.activate_function(self.__calculate_net__(vars))
+
     def training(self):
-        self.__training__()
-
-    def test(self, x1, x2, x3, x4):
-        print(self.weights)
-        net = self.__calculate_net__([x1, x2])
-        return self.activate_function(net)
-
-    def __training__(self):
         for epoch in range(self.epoch_number):
             for i in range(len(self.truth_table)):
                 row = self.truth_table[i]
@@ -66,4 +62,4 @@ neural.training()
 print('Done')
 
 print('Test')
-print(neural.test(1, 0, 1, 1))
+print(neural.test([1, 0, 1, 1]))
