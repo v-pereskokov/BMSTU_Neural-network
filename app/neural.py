@@ -21,7 +21,7 @@ class BooleanNeural:
         self.activate_function = activate_function
         self.training_nu = training_nu
         self.epoch_number = epoch_number
-        self.weights = [0] * vars
+        self.weights = [0] * (vars + 1)
 
     def training(self):
         pass
@@ -29,7 +29,11 @@ class BooleanNeural:
     def __training__(self):
         for epoch in range(self.epoch_number):
             for i in range(3):
-                net = train_data_x[i][0] * self.w1 + train_data_x[i][1] * self.w2 + self.w3
+                net = 0
+                data = self.truth_table[i][0]
+                for j in range(len(data)):
+                    net = net + data[j] * self.weights[j]
+                net = net + self.weights[len(data)]
                 out = self.activate_function(net)
 
                 # TODO: check error
