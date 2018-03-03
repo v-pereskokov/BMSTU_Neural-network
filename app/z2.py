@@ -10,8 +10,8 @@ class Z2:
     def truth_table(self, model):
         data = self.__create_table__()
         print(data)
-        x1, x2 = self.__regroup__(data)
-        result = self.model([x1, x2], model)
+        vars = self.__regroup__(data)
+        result = self.model(vars, model)
 
         for row, result_cell in zip(data, result):
             print(
