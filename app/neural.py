@@ -51,11 +51,7 @@ def model(vars, AND, OR, NOT):
     return AND(OR(NOT(vars[0]), OR(NOT(vars[1]), NOT(vars[2]))), OR(NOT(vars[1]), OR(NOT(vars[2]), vars[3])))
 
 
-def tesr_model(vars, AND, OR, NOT):
-    return AND(vars[0], vars[1])
-
-
-neural = BooleanNeural(2, Z2(2).truth_table(tesr_model), activate_function_hardly, 0.3, 100000)
+neural = BooleanNeural(2, Z2(2).truth_table(model), activate_function_hardly, 0.3, 100000)
 
 print('Training...')
 neural.training()
