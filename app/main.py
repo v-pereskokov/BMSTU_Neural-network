@@ -15,13 +15,14 @@ def magic_simple():
 
     y = result["out"]
     reality = result["reality"]
+    except_result = 1 if y > 0.8 else 0
 
     return jsonify({
-        "result": 1 if y > 0.8 else 0,
+        "result": except_result,
         "probability": y,
         "reality": reality,
         "vars": data["vars"],
-        "error": y - reality
+        "error": except_result - reality
     })
 
 
@@ -32,13 +33,14 @@ def magic():
 
     y = result["out"]
     reality = result["reality"]
+    except_result = 1 if y > 0.8 else 0
 
     return jsonify({
-        "result": 1 if y > 0.8 else 0,
+        "result": except_result,
         "probability": y,
         "reality": reality,
         "vars": data["vars"],
-        "error": y - reality
+        "error": except_result - reality
     })
 
 
