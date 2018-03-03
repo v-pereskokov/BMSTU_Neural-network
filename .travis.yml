@@ -14,6 +14,7 @@ deploy:
   app: bmstu-neural-network
   on:
     repo: vladpereskokov/BMSTU_Neural_network
+    branch: lab-01
   skip_cleanup: true
 
 script:
