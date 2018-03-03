@@ -4,7 +4,7 @@ x = [[0, 0], [0, 1], [1, 0], [1, 1]]
 y = [0, 0, 0, 1]
 
 train_data_x = x[1:4]
-print(train_data_x)
+# print(train_data_x)
 train_answers = y[1:4]
 
 
@@ -14,20 +14,29 @@ class BooleanNeural:
     activate_function = None
     training_nu = None
     epoch_number = None
+    truth_table = [[]]
     weights = []
 
-    def __init__(self, variables, model_function, activate_function, training_nu=1.0, epoch_number=100):
+    def __init__(self, variables, activate_function, training_nu=1.0, epoch_number=100):
         self.variables = variables
-        self.model_function = model_function
         self.activate_function = activate_function
         self.training_nu = training_nu
         self.epoch_number = epoch_number
 
-    def training(self):
-        for step in range(2 ** self.variables):
-            self.weights[step] = 0
+    def __model__(self, vars):
+        return (not vars[0] or not vars[1] or not vars[2]) and (not vars[1] or not vars[2] or vars[3])
 
-        return self.__training__()
+    def training(self):
+        result = []
+        result[0] = [0] * self.variables
+
+        for step in range(2 ** self.variables):
+            result = 0
+            for vars in result[step]:
+                result[step] = self.__model__(vars)
+                print(result[step])
+
+        # return self.__training__()
 
     def __training__(self):
         for epoch in range(self.epoch_number):
@@ -46,11 +55,31 @@ class BooleanNeural:
         return self.activate_function(x[0][0] * self.w1 + x[0][1] * self.w2 + self.w3)
 
 
-neural = BooleanNeural(activate_function_hardly, 0.3, 25000)
+# neural = BooleanNeural(4, activate_function_hardly, 0.3, 25000)
 
-print('Training...')
-neural.training()
-print('Done')
+# print('Training...')
+# neural.training()
+# print('Done')
+#
+# print('Test')
+# print(neural.test())
 
-print('Test')
-print(neural.test())
+
+def model(vars):
+    return (not vars[0] or not vars[1] or not vars[2]) and (not vars[1] or not vars[2] or vars[3])
+
+
+def simple_model(vars):
+    return bool(vars[0] and vars[1])
+
+
+result = [[False] * 2] * (2 ** 2)
+for i in range(len(result)):
+    vars = result[i]
+    print(vars)
+    result[i] = simple_model(vars)
+
+    if i + 1 != len(result):
+        result[i + 1] = [False if i + 1 < 2 ** (2 - j - 1) else True for j in range(2)]
+
+print(result)
