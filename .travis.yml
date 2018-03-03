@@ -4,6 +4,17 @@ python:
 
 install:
   - pip install -r requirements.txt
+  - pip install gunicorn
+  - pip freeze > requirements.txt
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: $HEROKU_KEY
+  app: bmstu-neural-network
+  on:
+    repo: vladpereskokov/BMSTU_Neural_network
+  skip_cleanup: true
 
 script:
   - python app/test.py
