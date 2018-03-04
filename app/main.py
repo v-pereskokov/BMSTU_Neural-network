@@ -8,7 +8,7 @@ from z2 import Z2
 app = Flask(__name__)
 
 
-def get_send_pack(except_result, y_out, reality, vars, error):
+def get_send_pack(truth_table_real, except_result, y_out, reality, vars, error):
     return {
         "result": except_result,
         "probability": y_out,
@@ -34,8 +34,14 @@ def magic_simple():
     data = json.loads(request.data)
     vars = data["vars"]
 
+    truth_table = []
+    for index in range(len(truth_table_real)):
+        row = truth_table_real[index]
+        out, _, _ = test(neural_simple, row[0])
+        truth_table.append([row[0], row[1], [out]])
+
     except_result, y, reality = test(neural_simple, vars)
-    return jsonify(get_send_pack(except_result, y, reality, data["vars"], except_result - reality))
+    return jsonify(get_send_pack(truth_table, except_result, y, reality, data["vars"], except_result - reality))
 
 
 @app.route("/api/v1/lab_01/real_magic", methods=["POST"])
@@ -43,8 +49,14 @@ def magic():
     data = json.loads(request.data)
     vars = data["vars"]
 
+    truth_table = []
+    for index in range(len(truth_table_real)):
+        row = truth_table_real[index]
+        out, _, _ = test(neural, row[0])
+        truth_table.append([row[0], row[1], [out]])
+
     except_result, y, reality = test(neural, vars)
-    return jsonify(get_send_pack(except_result, y, reality, data["vars"], except_result - reality))
+    return jsonify(get_send_pack(truth_table, except_result, y, reality, data["vars"], except_result - reality))
 
 
 def model(vars, AND, OR, NOT):
