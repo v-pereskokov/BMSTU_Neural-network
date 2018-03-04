@@ -36,8 +36,15 @@ class BooleanNeural:
 
                 # error = row[1][0] - out
                 error = self.__calculate_error__()
+                if debbug:
+                    self.info.append([
+                        row, data, net, out, error, self.weights
+                    ])
 
                 self.__update_weights__(data, out, error)
+
+    def get_info(self):
+        return self.info
 
     def __calculate_net__(self, data):
         net = 0
