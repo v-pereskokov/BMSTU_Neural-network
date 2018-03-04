@@ -23,16 +23,16 @@ class TestTraining2Vars(unittest.TestCase):
         self.assertTrue(self.neural.test([1, 1])["out"] > 0.8)
 
     def test_2_vars_false_1_0(self):
-        self.assertTrue(self.neural.test([1, 0])["out"] < 0.1)
+        self.assertTrue(self.neural.test([1, 0])["out"] < 0.2)
 
     def test_2_vars_false_0_1(self):
-        self.assertTrue(self.neural.test([0, 1])["out"] < 0.1)
+        self.assertTrue(self.neural.test([0, 1])["out"] < 0.2)
 
     def test_2_vars_false_0_0(self):
-        self.assertTrue(self.neural.test([0, 0])["out"] < 0.1)
+        self.assertTrue(self.neural.test([0, 0])["out"] < 0.2)
 
     def __training__(self, vars, model):
-        neural = BooleanNeural(vars, Z2(vars).truth_table(model), activate_function_hardly, 0.3, 100000)
+        neural = BooleanNeural(vars, Z2(vars).truth_table(model), activate_function_hardly, 0.3, 850)
         neural.training()
 
         return neural
@@ -49,13 +49,13 @@ class TestTraining4Vars(unittest.TestCase):
         self.assertTrue(self.neural.test([0, 0, 0, 0])["out"] > 0.8)
 
     def test_4_vars_false_1_1_1_0(self):
-        self.assertTrue(self.neural.test([1, 1, 1, 0])["out"] < 0.1)
+        self.assertTrue(self.neural.test([1, 1, 1, 0])["out"] < 0.2)
 
     def test_4_vars_false_0_1_1_0(self):
-        self.assertTrue(self.neural.test([0, 1, 1, 0])["out"] < 0.1)
+        self.assertTrue(self.neural.test([0, 1, 1, 0])["out"] < 0.2)
 
     def __training__(self, vars, model):
-        neural = BooleanNeural(vars, Z2(vars).truth_table(model), activate_function_hardly, 0.3, 100000)
+        neural = BooleanNeural(vars, Z2(vars).truth_table(model), activate_function_hardly, 0.3, 850)
         neural.training()
 
         return neural
