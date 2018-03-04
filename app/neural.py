@@ -24,7 +24,7 @@ class BooleanNeural:
             "reality": reality
         }
 
-    def training(self):
+    def training(self, debbug=False):
         for epoch in range(self.epoch_number):
             for i in range(len(self.truth_table)):
                 row = self.truth_table[i]
