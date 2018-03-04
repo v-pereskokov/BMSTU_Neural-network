@@ -19,8 +19,8 @@ Example:
 * Paper and Pencil
 * Python 3.6
 * Flask
-* Numpy
-* Pandas
+* Travis
+* Heroku
 
 ### Run
 #### Install dependencies
