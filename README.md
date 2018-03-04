@@ -1,15 +1,15 @@
 # BMSTU Neural network course
 
 ### Deploy
-~~Auto deploy from Travis CI to Heroku~~ 
-[Simple activate function](https://bmstu-neural-network.herokuapp.com/api/v1/lab_01/lazy_magic)
-[Difficult activate function](https://bmstu-neural-network.herokuapp.com/api/v1/lab_01/real_magic)
+~~Auto deploy from Travis CI to Heroku~~    
+[Simple activate function](https://bmstu-neural-network.herokuapp.com/api/v1/lab_01/lazy_magic)    
+[Difficult activate function](https://bmstu-neural-network.herokuapp.com/api/v1/lab_01/real_magic)    
 
-***POST request***
-*https://bmstu-neural-network.herokuapp.com/api/v1/lab_01/*
+***POST request***  
+*https://bmstu-neural-network.herokuapp.com/api/v1/lab_01/*  
 
-| API           | Request       |
-|:-------------:|:-------------:|
+| API           | Request       |  
+|:-------------:|:-------------:|  
 | lazy_magic    | {"vars": [x1, x2, x3, x4]} |
 | real_magic    | {"vars": [x1, x2, x3, x4]} |
 
