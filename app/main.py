@@ -29,6 +29,15 @@ def test(neural_impl, vars):
     return [except_result, y, reality]
 
 
+def calculate_error(truth_table):
+    error = 0
+    for row in truth_table:
+        if row[1] != row[2]:
+            error += 1
+
+    return error
+
+
 @app.route("/api/v1/lab_01/lazy_magic", methods=["POST"])
 def magic_simple():
     data = json.loads(request.data)
