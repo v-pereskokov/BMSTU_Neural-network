@@ -34,7 +34,7 @@ class BooleanNeural:
 
     def training(self, debug=False):
         for epoch in range(self.epoch_number):
-            for i in range(len(self.truth_table)):
+            for i in range(len(self.truth_table) - 2):
                 row = self.truth_table[i]
                 data = row[0]
 
@@ -71,8 +71,6 @@ class BooleanNeural:
             row = self.truth_table[index]
             out, _, _ = self.__local_test__(row[0])
             truth_table.append([row[0], row[1], [out]])
-
-        # print(truth_table)
 
         error = 0
         for row in truth_table:
