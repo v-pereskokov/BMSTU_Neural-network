@@ -14,7 +14,8 @@ def get_send_pack(except_result, y_out, reality, vars, error):
         "probability": y_out,
         "reality_result": reality,
         "vars": vars,
-        "error": error
+        "error": error,
+        "reality_truth_table": truth_table_real
     }
 
 
