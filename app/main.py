@@ -78,7 +78,7 @@ if __name__ == "__main__":
     neural_simple = BooleanNeural(4, truth_table_real, activate_function_simple, 0.3, 1000)
     neural_simple.training()
 
-    neural = BooleanNeural(4, truth_table_real, activate_function_hardly, 0.3, 15000)
+    neural = BooleanNeural(4, truth_table_real, activate_function_hardly, 0.3, 850)
     neural.training()
 
     port = int(os.environ.get('PORT', 5000))
