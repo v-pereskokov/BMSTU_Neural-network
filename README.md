@@ -35,6 +35,10 @@ Example:
 * Travis
 * Heroku
 
+### Test
+
+***All*** tests passed
+
 ### Run
 #### Install dependencies
 ```bash
@@ -43,5 +47,10 @@ Example:
 
 #### Start
 ```bash
-    python<3> main.py 
+    python<3> app/main.py 
+```
+
+#### Tests
+```bash
+    python<3> app/test.py 
 ```
