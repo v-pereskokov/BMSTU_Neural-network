@@ -50,7 +50,7 @@ def magic_simple():
         truth_table.append([row[0], row[1], [out]])
 
     except_result, y, reality = test(neural_simple, vars)
-    return jsonify(get_send_pack(truth_table, except_result, y, reality, data["vars"], except_result - reality))
+    return jsonify(get_send_pack(truth_table, except_result, y, reality, data["vars"], calculate_error(truth_table)))
 
 
 @app.route("/api/v1/lab_01/real_magic", methods=["POST"])
@@ -65,7 +65,7 @@ def magic():
         truth_table.append([row[0], row[1], [out]])
 
     except_result, y, reality = test(neural, vars)
-    return jsonify(get_send_pack(truth_table, except_result, y, reality, data["vars"], except_result - reality))
+    return jsonify(get_send_pack(truth_table, except_result, y, reality, data["vars"], calculate_error(truth_table)))
 
 
 def model(vars, AND, OR, NOT):
