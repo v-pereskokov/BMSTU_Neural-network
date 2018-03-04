@@ -5,7 +5,14 @@ class BooleanNeural:
     training_nu = None
     epoch_number = None
     weights = []
-    info = []
+    info = {
+        "epoch": [],
+        "error": [],
+        "data": [],
+        "out": [],
+        "net": [],
+        "weights": []
+    }
 
     def __init__(self, vars, truth_table, activate_function, training_nu=1.0, epoch_number=100):
         self.truth_table = truth_table
@@ -25,7 +32,7 @@ class BooleanNeural:
             "reality": reality
         }
 
-    def training(self, debbug=False):
+    def training(self, debug=False):
         for epoch in range(self.epoch_number):
             for i in range(len(self.truth_table)):
                 row = self.truth_table[i]
@@ -33,15 +40,15 @@ class BooleanNeural:
 
                 net = self.__calculate_net__(data)
                 out = self.activate_function(net)
-
-                # error = row[1][0] - out
-                error = self.__calculate_error__()
-                if debbug:
-                    self.info.append([
-                        row, data, net, out, error, self.weights
-                    ])
+                error = row[1][0] - out
 
                 self.__update_weights__(data, out, error)
+
+            if debug:
+                self.info["error"].append(self.__calculate_error__())
+                self.info["epoch"].append(epoch)
+
+        return self.info if debug else None
 
     def get_info(self):
         return self.info
@@ -64,6 +71,8 @@ class BooleanNeural:
             row = self.truth_table[index]
             out, _, _ = self.__local_test__(row[0])
             truth_table.append([row[0], row[1], [out]])
+
+        # print(truth_table)
 
         error = 0
         for row in truth_table:
