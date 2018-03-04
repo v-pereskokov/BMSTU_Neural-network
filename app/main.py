@@ -8,40 +8,42 @@ from z2 import Z2
 app = Flask(__name__)
 
 
-@app.route("/api/v1/lab_01/lazy_magic", methods=["POST"])
-def magic_simple():
-    data = json.loads(request.data)
-    result = neural_simple.test(data["vars"])
+def get_send_pack(except_result, y_out, reality, vars, error):
+    return {
+        "result": except_result,
+        "probability": y_out,
+        "reality_result": reality,
+        "vars": vars,
+        "error": error
+    }
 
+
+def test(neural_impl, vars):
+    result = neural_impl.test(vars)
     y = result["out"]
+
     reality = result["reality"]
     except_result = 1 if y > 0.8 else 0
 
-    return jsonify({
-        "result": except_result,
-        "probability": y,
-        "reality": reality,
-        "vars": data["vars"],
-        "error": except_result - reality
-    })
+    return [except_result, y, reality]
+
+
+@app.route("/api/v1/lab_01/lazy_magic", methods=["POST"])
+def magic_simple():
+    data = json.loads(request.data)
+    vars = data["vars"]
+
+    except_result, y, reality = test(neural_simple, vars)
+    return jsonify(get_send_pack(except_result, y, reality, data["vars"], except_result - reality))
 
 
 @app.route("/api/v1/lab_01/real_magic", methods=["POST"])
 def magic():
     data = json.loads(request.data)
-    result = neural.test(data["vars"])
+    vars = data["vars"]
 
-    y = result["out"]
-    reality = result["reality"]
-    except_result = 1 if y > 0.8 else 0
-
-    return jsonify({
-        "result": except_result,
-        "probability": y,
-        "reality": reality,
-        "vars": data["vars"],
-        "error": except_result - reality
-    })
+    except_result, y, reality = test(neural, vars)
+    return jsonify(get_send_pack(except_result, y, reality, data["vars"], except_result - reality))
 
 
 def model(vars, AND, OR, NOT):
