@@ -1,5 +1,7 @@
 # BMSTU Neural network course
 
+[![Build Status](https://travis-ci.com/vladpereskokov/BMSTU_Neural-network.svg?token=vgWpgFdW3m8asKepzCnQ&branch=lab-01)](https://travis-ci.com/vladpereskokov/BMSTU_Neural-network)  
+
 ### Deploy
 ~~Auto deploy from Travis CI to Heroku~~    
 [Simple activate function](https://bmstu-neural-network.herokuapp.com/api/v1/lab_01/lazy_magic)    
