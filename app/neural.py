@@ -5,6 +5,7 @@ class BooleanNeural:
     training_nu = None
     epoch_number = None
     weights = []
+    info = []
 
     def __init__(self, vars, truth_table, activate_function, training_nu=1.0, epoch_number=100):
         self.truth_table = truth_table
@@ -33,7 +34,8 @@ class BooleanNeural:
                 net = self.__calculate_net__(data)
                 out = self.activate_function(net)
 
-                error = row[1][0] - out
+                # error = row[1][0] - out
+                error = self.__calculate_error__()
 
                 self.__update_weights__(data, out, error)
 
@@ -48,3 +50,26 @@ class BooleanNeural:
         for index_weight in range(len(self.weights)):
             self.weights[index_weight] = self.weights[index_weight] + self.training_nu * error * out * (
                     1 - out) * (data[index_weight] if index_weight != len(data) else 1)
+
+    def __calculate_error__(self):
+        truth_table = []
+        for index in range(len(self.truth_table)):
+            row = self.truth_table[index]
+            out, _, _ = self.__local_test__(row[0])
+            truth_table.append([row[0], row[1], [out]])
+
+        error = 0
+        for row in truth_table:
+            if row[1] != row[2]:
+                error += 1
+
+        return error
+
+    def __local_test__(self, vars):
+        result = self.test(vars)
+        y = result["out"]
+
+        reality = result["reality"]
+        except_result = 1 if y > 0.8 else 0
+
+        return [except_result, y, reality]
