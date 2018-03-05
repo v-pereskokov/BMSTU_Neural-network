@@ -1,3 +1,6 @@
+from math import sqrt
+
+
 class BooleanNeural:
     vars = 2
     truth_table = None
@@ -62,8 +65,8 @@ class BooleanNeural:
 
     def __update_weights__(self, data, out, error):
         for index_weight in range(len(self.weights)):
-            self.weights[index_weight] = self.weights[index_weight] + self.training_nu * error * out * (
-                    1 - out) * (data[index_weight] if index_weight != len(data) else 1)
+            self.weights[index_weight] = self.weights[index_weight] + self.training_nu * error * self.__df__(out) * (
+                data[index_weight] if index_weight != len(data) else 1)
 
     def __calculate_error__(self):
         truth_table = []
@@ -87,3 +90,6 @@ class BooleanNeural:
         except_result = 1 if y > 0.8 else 0
 
         return [except_result, y, reality]
+
+    def __df__(self, net):
+        return 0.5 * (1 / ((abs(net) + 1) ** 2))
