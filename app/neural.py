@@ -35,7 +35,7 @@ class BooleanNeural:
             "reality": reality
         }
 
-    def training(self, debug=False):
+    def training(self, debug=False, simple=False):
         for epoch in range(self.epoch_number):
             for i in range(len(self.truth_table)):
                 row = self.truth_table[i]
@@ -45,7 +45,7 @@ class BooleanNeural:
                 out = self.activate_function(net)
                 error = row[1][0] - out
 
-                self.__update_weights__(data, net, out, error)
+                self.__update_weights__(data, net, out, error, simple)
 
             if debug:
                 self.info["error"].append(self.__calculate_error__())
@@ -63,10 +63,11 @@ class BooleanNeural:
 
         return net + self.weights[len(data)]
 
-    def __update_weights__(self, data, net, out, error):
+    def __update_weights__(self, data, net, out, error, simple):
         for index_weight in range(len(self.weights)):
-            self.weights[index_weight] = self.weights[index_weight] + self.training_nu * error * self.__df__(net) * (
-                data[index_weight] if index_weight != len(data) else 1)
+            self.weights[index_weight] = self.weights[index_weight] + self.training_nu * error * (
+                1 if simple else self.__df__(net)) * (
+                                             data[index_weight] if index_weight != len(data) else 1)
 
     def __calculate_error__(self):
         truth_table = []

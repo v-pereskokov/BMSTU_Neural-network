@@ -21,20 +21,20 @@ def model(vars, AND, OR, NOT):
 if __name__ == "__main__":
     truth_table_real = Z2(4).truth_table(model)
 
-    # neural_simple = BooleanNeural(4, truth_table_real, activate_function_simple, 0.3, 25)
-    # info_simple = neural_simple.training(debug=True)
+    neural_simple = BooleanNeural(4, truth_table_real, activate_function_simple, 0.3, 35)
+    info_simple = neural_simple.training(debug=True, simple=True)
 
-    neural = BooleanNeural(4, truth_table_real, activate_function_hardly, 0.3, 850)
-    info = neural.training(debug=True)
+    # neural = BooleanNeural(4, truth_table_real, activate_function_hardly, 0.3, 850)
+    # info = neural.training(debug=True)
 
-    # plt.plot(info_simple["epoch"], info_simple["error"], 'o-')
-    # plt.ylabel('E(k)')
-    # plt.xlabel('Epoch')
-    # plt.title('E(k)[Epoch]')
-    # plt.show()
-
-    plt.plot(info["epoch"], info["error"], '.-')
+    plt.plot(info_simple["epoch"], info_simple["error"], 'o-')
     plt.ylabel('E(k)')
     plt.xlabel('Epoch')
     plt.title('E(k)[Epoch]')
     plt.show()
+
+    # plt.plot(info["epoch"], info["error"], '.-')
+    # plt.ylabel('E(k)')
+    # plt.xlabel('Epoch')
+    # plt.title('E(k)[Epoch]')
+    # plt.show()

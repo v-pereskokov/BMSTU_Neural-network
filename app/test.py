@@ -33,7 +33,7 @@ class TestTraining2Vars(unittest.TestCase):
 
     def __training__(self, vars, model):
         neural = BooleanNeural(vars, Z2(vars).truth_table(model), activate_function_hardly, 0.3, 10000)
-        neural.training()
+        neural.training(simple=True)
 
         return neural
 
