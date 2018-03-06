@@ -1,6 +1,3 @@
-from math import sqrt
-
-
 class BooleanNeural:
     vars = 2
     truth_table = None
@@ -35,6 +32,38 @@ class BooleanNeural:
             "reality": reality
         }
 
+    def start(self):
+        for i in range(9):
+            top = []
+            for j in range(9):
+                top.append(self.truth_table[j])
+            info = self.training_3(table=top, debug=True)
+            if 0 in info["error"]:
+                print(top, info["test"])
+
+    def training_3(self, table, debug=False, simple=False):
+        for epoch in range(self.epoch_number):
+            for i in range(len(table)):
+                row = self.truth_table[i]
+                data = row[0]
+
+                net = self.__calculate_net__(data)
+                out = self.activate_function(net)
+                error = row[1][0] - out
+
+                self.__update_weights__(data, net, out, error, simple)
+
+            error = self.__calculate_error__()
+            if debug:
+                self.info["error"].append(error)
+                self.info["epoch"].append(epoch)
+                self.info["test"] = epoch
+
+            if error == 0:
+                return self.info if debug else None
+
+        return self.info if debug else None
+
     def training(self, debug=False, simple=False):
         for epoch in range(self.epoch_number):
             for i in range(len(self.truth_table)):
@@ -47,9 +76,13 @@ class BooleanNeural:
 
                 self.__update_weights__(data, net, out, error, simple)
 
+            error = self.__calculate_error__()
             if debug:
-                self.info["error"].append(self.__calculate_error__())
+                self.info["error"].append(error)
                 self.info["epoch"].append(epoch)
+
+            if error == 0:
+                return self.info if debug else None
 
         return self.info if debug else None
 

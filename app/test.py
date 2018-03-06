@@ -62,4 +62,6 @@ class TestTraining4Vars(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    # unittest.main()
+    neural = BooleanNeural(4, Z2(4).truth_table(model_13), activate_function_hardly, 0.3, 100)
+    neural.start()
