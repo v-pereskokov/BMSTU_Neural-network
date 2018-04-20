@@ -2,22 +2,29 @@ import math
 
 
 class GraphNeural:
+    # интервал из 20ти равноотстоящих исходных значений
     interval = 20
+    # норма обучения
     norma = 0.01
+    # длина окна
     p = 4
     correct_data = []
     weights = [0, 0, 0, 0, 0]
+    # максимально допустимая ошибка
     EPS = 0.01
 
     def __init__(self, a, b):
         self.a = a
         self.b = b
+        # задаем правильные значения, высчитанные по исходной функции
         self.__set_correct__()
 
     def __set_vector__(self, data_x):
+        # вес w0 = 1 (по правилу Видроу-Хоффа)
         self.vector = [1]
         self.vector.extend(data_x)
 
+    # получаем следующее прогнозируемое значение ряда
     def __get_next_value__(self):
         next_value = 0
         for i in range(len(self.vector)):
@@ -25,14 +32,20 @@ class GraphNeural:
 
         return next_value
 
+    # запуск теста
     def test(self):
         return self.epoch()
 
+    # обучение
     def training(self):
         steps = 0
         while self.epoch()["error"] >= self.EPS:
             steps += 1
 
+        """
+            деструктктуризируем значения, полученные при прохождении через эпоху и число шагов, 
+            после которых ошибка стала меньше минимальной
+        """
         return {
             **self.epoch(),
             "steps": steps
@@ -45,6 +58,7 @@ class GraphNeural:
 
         while counter < self.interval:
             vector = []
+            # получаем значения x[n−p+k−1]
             for cycle in range(self.p):
                 vector.append(self.correct_data[counter - self.p - cycle + 1])
 
@@ -54,6 +68,7 @@ class GraphNeural:
             current.append(current_result)
             update_weights = self.weights
 
+            # обновляем веса
             for i in range(len(self.weights)):
                 update_weights[i] += self.norma * (self.correct_data[counter] - current_result) * self.vector[i]
 
@@ -77,6 +92,7 @@ class GraphNeural:
             self.correct_data.append(self.__func_activate__(self.a))
             self.a += step
 
+    # суммарная среднеквадратичная ошибка
     def __calc_error__(self, training, correct):
         diff = []
         for i in range(len(training)):
