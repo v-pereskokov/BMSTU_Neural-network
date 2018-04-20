@@ -1,7 +1,7 @@
 from neural import GraphNeural
 
 if __name__ == "__main__":
-    neural = GraphNeural(1, 1.5)
+    neural = GraphNeural(0, 1)
 
     result = neural.training()
     epoch = neural.test()

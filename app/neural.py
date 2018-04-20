@@ -7,7 +7,7 @@ class GraphNeural:
     p = 4
     correct_data = []
     weights = [0, 0, 0, 0, 0]
-    EPS = 0.001
+    EPS = 0.01
 
     def __init__(self, a, b):
         self.a = a
