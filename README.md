@@ -1,6 +1,6 @@
 # BMSTU Neural network course
 
-[Отчет](/report.md)  
+[Report](/report.md)  
 
 ### Description
 Implementation algorithms of neural network by python 3. And web interface to get result of training systems. 
