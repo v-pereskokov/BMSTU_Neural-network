@@ -1,4 +1,4 @@
-from activate_functions import activate_function_hardly, activate_function_simple
+from activate_functions import activate_function
 from neural import BooleanNeural
 from z2 import Z2
 
@@ -40,8 +40,5 @@ def model(vars, AND, OR, NOT):
 if __name__ == "__main__":
     truth_table_real = Z2(4).truth_table(model)
 
-    neural_simple = BooleanNeural(4, truth_table_real, activate_function_simple, 0.3, 35)
-    neural_simple.training(simple=True)
-
-    neural = BooleanNeural(4, truth_table_real, activate_function_hardly, 0.3, 10000)
+    neural = BooleanNeural(4, truth_table_real, activate_function, 0.3, 10000)
     neural.training()
