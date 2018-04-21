@@ -1,9 +1,9 @@
-from math import fabs
+import math
 
 
-def activate_function_simple(net):
-    return 1 if net >= 0 else 0
+def activate_function(x, c, i, J):
+    summ = 0
+    for j in range(J):
+        summ += (x[j] - c[i][j]) ** 2
 
-
-def activate_function_hardly(net):
-    return 0.5 * ((net / (1 + fabs(net))) + 1)
+    return math.exp(-summ)
