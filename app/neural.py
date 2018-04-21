@@ -1,123 +1,106 @@
+from math import *
+
+
 class BooleanNeural:
-    vars = 2
     truth_table = None
-    activate_function = None
-    training_nu = None
-    epoch_number = None
-    weights = []
-    info = {
-        "epoch": [],
-        "error": [],
-        "data": [],
-        "out": [],
-        "net": [],
-        "weights": []
-    }
 
-    '''
-        Конструктор для инициализации полей
-    '''
-    def __init__(self, vars, truth_table, activate_function, training_nu=1.0, epoch_number=100):
+    def __init__(self, truth_table):
         self.truth_table = truth_table
-        self.activate_function = activate_function
-        self.training_nu = training_nu
-        self.epoch_number = epoch_number
-        self.weights = [0] * (vars + 1)
 
-    '''
-        Проведение теста над переменными
-    '''
-    def test(self, vars):
-        reality = None
+    def __min_f_values_(self):
+        C = []
+        N = []
+        true_count = 0
         for row in self.truth_table:
-            if row[0] == vars:
-                reality = row[1][0]
+            if row[1] == 1:
+                true_count += 1
 
-        return {
-            "out": self.activate_function(self.__calculate_net__(vars)),
-            "reality": reality
-        }
+        m = 1 if true_count <= len(self.truth_table) / 2 else 0
 
-    '''
-        Проведение обучения на полной таблице истинности.
-        Таблица истинности генерируется под определенное число переменных 
-        и под нужную булеву функцию
-    '''
-    def training(self, debug=False, simple=False):
-        for epoch in range(self.epoch_number):
-            for i in range(len(self.truth_table)):
-                row = self.truth_table[i]
-                data = row[0]
+        for i in range(len(self.truth_table)):
+            [x_vector, f] = self.truth_table[i]
+            if f == m:
+                N.append(i)
+                C.append(x_vector)
 
-                net = self.__calculate_net__(data)
-                out = self.activate_function(net)
-                error = row[1][0] - out
+        return C, N
 
-                self.__update_weights__(data, net, out, error, simple)
 
-            error = self.__calculate_error__()
-            if debug:
-                self.info["error"].append(error)
-                self.info["epoch"].append(epoch)
+def CeC():
+    C = []
+    N = []
+    kol = 0
+    for i in F:
+        if (i == 1):
+            kol += 1
+    if (kol <= 8):
+        m = 1
+    else:
+        m = 0
+    for i in range(16):
+        print("___")
+        print("Fi: ", F[i])
+        print("m: ", m)
+        print("\n")
+        if (F[i] == m):
+            N.append(i)
+            C.append(sett[i][:])
+    return C, N
 
-            if error == 0:
-                return self.info if debug else None
 
-        return self.info if debug else None
+def Fe(i, mat):
+    summ = 0
+    for j in range(4):
+        summ += (mat[j] - C[i][j]) * (mat[j] - C[i][j])
+    return exp(-summ)
 
-    def get_info(self):
-        return self.info
 
-    '''
-        Вычисление net
-    '''
-    def __calculate_net__(self, data):
-        net = 0
-        for j in range(len(data)):
-            net = net + data[j] * self.weights[j]
+def NET(V, mat):
+    net = 0
+    for i in range(len(V) - 1):
+        net += V[i] * Fe(i, mat)
+    net += V[len(V) - 1]
+    return net
 
-        return net + self.weights[len(data)]
 
-    '''
-        Обновление весов
-    '''
-    def __update_weights__(self, data, net, out, error, simple):
-        for index_weight in range(len(self.weights)):
-            self.weights[index_weight] = self.weights[index_weight] + self.training_nu * error * (
-                1 if simple else self.__df__(net)) * (
-                                             data[index_weight] if index_weight != len(data) else 1)
+def train():
+    new_V = []
+    for i in range(len(V)):
+        new_V.append(V[i])
+    Y = [-1] * 16
+    E = 0
+    for i in N2:
+        if (NET(V, sett[i]) >= 0):
+            Y[i] = 1
+        else:
+            Y[i] = 0
+        if (Y[i] != F[i]):
+            E += 1
+            for j in range(len(V) - 1):
+                new_V[j] += - 0.3 * (Y[i] - F[i]) * Fe(j, sett[i])
+            new_V[len(V) - 1] += - 0.3 * (Y[i] - F[i])
+    if (E > 0):
+        for i in range(len(V)):
+            V[i] = new_V[i]
+    return E
 
-    '''
-        Вычисление расстояния Хэмминга
-    '''
-    def __calculate_error__(self):
-        truth_table = []
-        for index in range(len(self.truth_table)):
-            row = self.truth_table[index]
-            out, _, _ = self.__local_test__(row[0])
-            truth_table.append([row[0], row[1], [out]])
 
-        error = 0
-        for row in truth_table:
-            if row[1] != row[2]:
-                error += 1
+sett = [[0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0],
+        [0, 0, 1, 1], [0, 1, 0, 0], [0, 1, 0, 1],
+        [0, 1, 1, 0], [0, 1, 1, 1], [1, 0, 0, 0],
+        [1, 0, 0, 1], [1, 0, 1, 0], [1, 0, 1, 1],
+        [1, 1, 0, 0], [1, 1, 0, 1], [1, 1, 1, 0],
+        [1, 1, 1, 1]]
+F = [0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1]
+C, N = CeC()
+print("C: ", C, "\n")
+print("N: ", N, "\n")
+N2 = [2, 13, 15]
+V = [0] * (len(C) + 1)
+error = train()
+kol = 1
+while (error > 0):
+    error = train()
+    kol += 1
 
-        return error
-
-    '''
-        Проверка на значение результата по Y(net)
-    '''
-    def __local_test__(self, vars):
-        result = self.test(vars)
-        y = result["out"]
-
-        reality = result["reality"]
-        except_result = 1 if y > 0.8 else 0
-
-        return [except_result, y, reality]
-
-    '''
-        Производная (добавил в этот класс)
-    '''
-    def __df__(self, net):
-        return 0.5 * (1 / ((abs(net) + 1) ** 2))
+print(V, '\n', kol)
