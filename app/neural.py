@@ -59,8 +59,8 @@ class GraphNeural:
         while counter < self.interval:
             vector = []
             # получаем значения x[n−p+k−1]
-            for cycle in range(self.p):
-                vector.append(self.correct_data[counter - self.p - cycle + 1])
+            for k in range(self.p):
+                vector.append(self.correct_data[counter - self.p + k - 1])
 
             self.__set_vector__(vector)
 
