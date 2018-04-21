@@ -38,8 +38,15 @@ class GraphNeural:
 
     # обучение
     def training(self):
+        errors = []
+
         steps = 0
-        while self.epoch()["error"] >= self.EPS:
+        error = 1
+        while error >= self.EPS:
+            epoch = self.epoch()
+            error = epoch["error"]
+
+            errors.append(error)
             steps += 1
 
         """
@@ -48,7 +55,8 @@ class GraphNeural:
         """
         return {
             **self.epoch(),
-            "steps": steps
+            "steps": steps,
+            "errors": errors
         }
 
     def epoch(self):
