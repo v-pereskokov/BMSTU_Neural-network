@@ -14,14 +14,20 @@ class BooleanNeural:
     def training(self):
         error = 1
         epochs = 0
+        info_data = []
         while error > 0:
             error = self.__step__()
+            info_data.append({
+                "error": error,
+                "epoch": epochs
+            })
             epochs += 1
 
         return {
             "error": error,
             "epochs": epochs,
-            "weights": self.vector
+            "weights": self.vector,
+            "info": info_data
         }
 
     def __setup__(self):
