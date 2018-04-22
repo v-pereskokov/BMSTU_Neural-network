@@ -15,6 +15,3 @@ deploy:
     repo: vladpereskokov/BMSTU_Neural-network
     branch: lab-01
   skip_cleanup: true
-
-script:
-  - python app/test.py

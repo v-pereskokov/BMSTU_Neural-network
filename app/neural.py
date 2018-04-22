@@ -1,6 +1,5 @@
 from math import *
 from activate_functions import activate_function
-from z2 import Z2
 
 
 class BooleanNeural:
