@@ -1,4 +1,3 @@
-from activate_functions import activate_function
 from neural import BooleanNeural
 from z2 import Z2
 
