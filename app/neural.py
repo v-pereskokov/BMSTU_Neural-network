@@ -95,13 +95,3 @@ class BooleanNeural:
                 numbers_vector.append(i)
                 c_vector.append(row)
         return c_vector, numbers_vector
-
-
-def model(vars, AND, OR, NOT):
-    return AND(OR(NOT(vars[0]), OR(NOT(vars[1]), NOT(vars[2]))), OR(NOT(vars[1]), OR(NOT(vars[2]), vars[3])))
-
-
-neural = BooleanNeural(Z2(4).truth_table(model), [1, 9, 15])
-result = neural.training()
-
-print(result)
