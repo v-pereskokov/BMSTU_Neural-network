@@ -5,25 +5,33 @@ from z2 import Z2
 
 class BooleanNeural:
     truth_table = None
+    rows = None
 
-    def __init__(self, truth_table):
+    def __init__(self, truth_table, center):
         self.truth_table = truth_table
+        self.center = center
+        self.__setup__()
 
-    def __min_f_values_(self):
-        y_numbers = []
-        true_count = 0
+    def training(self):
+        error = 1
+        epochs = 0
+        while error > 0:
+            error = self.__step__()
+            epochs += 1
 
-        for row in self.truth_table:
-            if row[1] == 1:
-                true_count += 1
+        return {
+            "error": error,
+            "epochs": epochs,
+            "weights": self.vector
+        }
 
-        cmp = 1 if true_count <= len(self.truth_table) / 2 else 0
+    def __setup__(self):
+        rows = []
+        [rows.append(row[0]) for row in self.truth_table]
+        self.rows = list(reversed(rows))
 
-        for i in range(len(self.truth_table)):
-            if self.truth_table[i][1] == cmp:
-                y_numbers.append(i)
-
-        return y_numbers
+        self.c_rows, c_numbers = self.find_min()
+        self.vector = [0] * (len(self.c_rows) + 1)
 
     def __net__(self, vector, row, y_vector):
         net = 0
@@ -36,112 +44,64 @@ class BooleanNeural:
     def __activate_function__(self, i, mat):
         summ = 0
         for j in range(4):
-            summ += (mat[j] - C[i][j]) ** 2
+            summ += (mat[j] - self.c_rows[i][j]) ** 2
         return exp(-summ)
 
-    def __get_net__(self, V, mat):
+    def __get_net__(self, vector, mat):
         net = 0
-        for i in range(len(V) - 1):
-            net += V[i] * self.__activate_function__(i, mat)
-        net += V[len(V) - 1]
+        for i in range(len(vector) - 1):
+            net += vector[i] * self.__activate_function__(i, mat)
+        net += vector[-1]
+
         return net
 
-    def train(self):
-        new_V = []
-        for i in range(len(V)):
-            new_V.append(V[i])
-        Y = [-1] * 16
-        E = 0
-        for i in N2:
-            if self.__get_net__(V, sett[i]) >= 0:
-                Y[i] = 1
+    def __step__(self):
+        update_vector = []
+        for i in range(len(self.vector)):
+            update_vector.append(self.vector[i])
+        y_vector = [-1] * len(self.truth_table)
+        e = 0
+        for i in self.center:
+            if self.__get_net__(self.vector, self.rows[i]) >= 0:
+                y_vector[i] = 1
             else:
-                Y[i] = 0
-            if Y[i] != F[i]:
-                E += 1
-                for j in range(len(V) - 1):
-                    new_V[j] += - 0.3 * (Y[i] - F[i]) * self.__activate_function__(j, sett[i])
-                new_V[len(V) - 1] += - 0.3 * (Y[i] - F[i])
-        if E > 0:
-            for i in range(len(V)):
-                V[i] = new_V[i]
-        return E
+                y_vector[i] = 0
 
-    def CeC(self):
-        C = []
-        N = []
-        kol = 0
-        for i in F:
-            if (i == 1):
-                kol += 1
-        if (kol <= 8):
-            m = 1
-        else:
-            m = 0
-        for i in range(16):
-            if (F[i] == m):
-                N.append(i)
-                C.append(sett[i][:])
-        return C, N
+            if y_vector[i] != self.truth_table[i][1][0]:
+                e += 1
 
+                for j in range(len(self.vector) - 1):
+                    update_vector[j] += - 0.3 * (y_vector[i] - self.truth_table[i][1][0]) * self.__activate_function__(
+                        j, self.rows[i])
+                update_vector[len(self.vector) - 1] += - 0.3 * (y_vector[i] - self.truth_table[i][1][0])
+        if e > 0:
+            for i in range(len(self.vector)):
+                self.vector[i] = update_vector[i]
+        return e
 
-# def Fe(i, mat):
-#     summ = 0
-#     for j in range(4):
-#         summ += (mat[j] - C[i][j]) * (mat[j] - C[i][j])
-#     return exp(-summ)
-#
-#
-# def NET(V, mat):
-#     net = 0
-#     for i in range(len(V) - 1):
-#         net += V[i] * Fe(i, mat)
-#     net += V[len(V) - 1]
-#     return net
-#
-#
-# def train():
-#     new_V = []
-#     for i in range(len(V)):
-#         new_V.append(V[i])
-#     Y = [-1] * 16
-#     E = 0
-#     for i in N2:
-#         if (NET(V, sett[i]) >= 0):
-#             Y[i] = 1
-#         else:
-#             Y[i] = 0
-#         if (Y[i] != F[i]):
-#             E += 1
-#             for j in range(len(V) - 1):
-#                 new_V[j] += - 0.3 * (Y[i] - F[i]) * Fe(j, sett[i])
-#             new_V[len(V) - 1] += - 0.3 * (Y[i] - F[i])
-#     if (E > 0):
-#         for i in range(len(V)):
-#             V[i] = new_V[i]
-#     return E
+    def find_min(self):
+        c_vector = []
+        numbers_vector = []
+        true_count = 0
+        for row in self.truth_table:
+            if row[1][0] == 1:
+                true_count += 1
+
+        cmp = 1 if true_count <= len(self.truth_table) / 2 else 0
+
+        for i in range(len(self.truth_table)):
+            [row, f] = self.truth_table[i]
+            if f[0] == cmp:
+                numbers_vector.append(i)
+                c_vector.append(row)
+        return c_vector, numbers_vector
+
 
 def model(vars, AND, OR, NOT):
     return AND(OR(NOT(vars[0]), OR(NOT(vars[1]), NOT(vars[2]))), OR(NOT(vars[1]), OR(NOT(vars[2]), vars[3])))
 
 
-neural = BooleanNeural(Z2(4).truth_table(model))
-sett = [[0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0],
-        [0, 0, 1, 1], [0, 1, 0, 0], [0, 1, 0, 1],
-        [0, 1, 1, 0], [0, 1, 1, 1], [1, 0, 0, 0],
-        [1, 0, 0, 1], [1, 0, 1, 0], [1, 0, 1, 1],
-        [1, 1, 0, 0], [1, 1, 0, 1], [1, 1, 1, 0],
-        [1, 1, 1, 1]]
-F = [0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1]
-C, N = neural.CeC()
-print("C: ", C, "\n")
-print("N: ", N, "\n")
-N2 = [2, 13, 15]
-V = [0] * (len(C) + 1)
-error = neural.train()
-kol = 1
-while error > 0:
-    error = neural.train()
-    kol += 1
+neural = BooleanNeural(Z2(4).truth_table(model), [1, 9, 15])
+result = neural.training()
 
-print(V, '\n', kol)
+print(result)
