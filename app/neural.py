@@ -11,16 +11,17 @@ class BooleanNeural:
         self.center = center
         self.__setup__()
 
+    # метод обучения
     def training(self):
-        error = 1
+        error = 1  # задаем ошибку изначально 1
         epochs = 0
         info_data = []
-        while error > 0:
-            error = self.__step__()
+        while error > 0:  # обучаем пока ошибка > 0
+            error = self.__step__()  # шаг обучения (одна эпоха)
             info_data.append({
                 "error": error,
                 "epoch": epochs
-            })
+            })  # сбор логов (ошибка и эпоха на кажжой итерации)
             epochs += 1
 
         return {
@@ -30,6 +31,7 @@ class BooleanNeural:
             "info": info_data
         }
 
+    # задаем дополнительные переменные для удобства (массив со строками и тд)
     def __setup__(self):
         rows = []
         [rows.append(row[0]) for row in self.truth_table]
@@ -38,20 +40,13 @@ class BooleanNeural:
         self.c_rows, c_numbers = self.find_min()
         self.vector = [0] * (len(self.c_rows) + 1)
 
-    def __net__(self, vector, row, y_vector):
-        net = 0
-
-        for i in range(len(vector) - 1):
-            net += vector[i] * activate_function(i, row, y_vector)
-
-        return net + vector[-1]
-
     def __activate_function__(self, i, mat):
         summ = 0
         for j in range(4):
             summ += (mat[j] - self.c_rows[i][j]) ** 2
         return exp(-summ)
 
+    # получаем net
     def __get_net__(self, vector, mat):
         net = 0
         for i in range(len(vector) - 1):
@@ -84,6 +79,7 @@ class BooleanNeural:
                 self.vector[i] = update_vector[i]
         return e
 
+    # поиск J = min{J0 , J1}
     def find_min(self):
         c_vector = []
         numbers_vector = []
