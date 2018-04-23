@@ -37,8 +37,4 @@ class Perceptron:
         return self.weights[index]
 
 
-class Neural:
-    pass
-
-
 Perceptron(2, 1)
