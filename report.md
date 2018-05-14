@@ -59,13 +59,7 @@ WORD_8 = [1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1]
 ```
 
 ### Результаты тестирования
-- 8  
-```python
-[1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1] # Эталон
-[1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1] # Результат
-```
-
-- Искаженная 8
+- 8 и искаженная 8
 ```python
 ERROR_WORD_8 = [-1, 1, 1, 1, -1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1]
 
@@ -113,8 +107,8 @@ ERROR_WORD_8 = [-1, 1, 1, 1, -1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1]
 if __name__ == "__main__":
     network = NetworkHopfield(WORD_2, WORD_4, WORD_8)
 
-    print(network.get_result(WORD_8))
-    print(network.get_result(ERROR_WORD_8))
+    print("8: {}".format(network.execute(WORD_8)))
+    print("error 8: {}".format(network.execute(ERROR_WORD_8)))
 ```
 
 #### neural.py
@@ -138,14 +132,14 @@ class NetworkHopfield:
 
         self.y_n_1 = []
 
-    def net_count(self):
+    def calc_net(self):
         result = []
         for i in range(len(self.y_n_1)):
             result.append(sum([self.weights[j][i] * self.y_n_1[j] for j in range(len(self.y_n_1))]))
 
         return result
 
-    def out_function(self, net):
+    def get_out(self, net):
         out = []
         for i in range(len(self.y_n_1)):
             if net[i] > 0:
@@ -158,9 +152,9 @@ class NetworkHopfield:
 
         return out
 
-    def get_result(self, data):
+    def execute(self, data):
         self.y_n_1 = data
-        return self.out_function(self.net_count())
+        return self.get_out(self.calc_net())
 ```
 
 ### Выполнял
