@@ -17,14 +17,14 @@ class NetworkHopfield:
 
         self.y_n_1 = []
 
-    def net_count(self):
+    def calc_net(self):
         result = []
         for i in range(len(self.y_n_1)):
             result.append(sum([self.weights[j][i] * self.y_n_1[j] for j in range(len(self.y_n_1))]))
 
         return result
 
-    def out_function(self, net):
+    def get_out(self, net):
         out = []
         for i in range(len(self.y_n_1)):
             if net[i] > 0:
@@ -37,6 +37,6 @@ class NetworkHopfield:
 
         return out
 
-    def get_result(self, data):
+    def execute(self, data):
         self.y_n_1 = data
-        return self.out_function(self.net_count())
+        return self.get_out(self.calc_net())

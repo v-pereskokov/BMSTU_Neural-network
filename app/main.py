@@ -32,5 +32,5 @@ ERROR_WORD_8 = [-1, 1, 1, 1, -1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1]
 if __name__ == "__main__":
     network = NetworkHopfield(WORD_2, WORD_4, WORD_8)
 
-    print(network.get_result(WORD_8))
-    print(network.get_result(ERROR_WORD_8))
+    print(network.execute(WORD_8))
+    print(network.execute(ERROR_WORD_8))
