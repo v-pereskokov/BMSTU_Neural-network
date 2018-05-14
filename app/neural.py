@@ -28,19 +28,15 @@ class NetworkHopfield:
         out = []
         for i in range(len(self.y_n_1)):
             if net[i] > 0:
-                cur = 1
+                current = 1
             elif net[i] < 0:
-                cur = -1
+                current = -1
             else:
-                cur = self.y_n_1[i]
-            out.append(cur)
+                current = self.y_n_1[i]
+            out.append(current)
 
         return out
 
     def get_result(self, data):
         self.y_n_1 = data
-
-        net = self.net_count()
-        result = self.out_function(net)
-
-        return result
+        return self.out_function(self.net_count())
