@@ -64,6 +64,7 @@ class NeuralNetwork:
         counter = 0
 
         while True:
+            # На первом этапе следует рассчитать по заданному входному сигналу xi , i=0,N,выходМНС ym(k)
             net0 = self.W00[0] + self.X[1] * self.W01[0]
             newX = [1, self.activation_func(net0)]
             Y = []
@@ -72,7 +73,7 @@ class NeuralNetwork:
             for i in range(3):
                 Y.append(self.W10[i] + newX[1] * self.W11[i])
                 delta2.append(self.activation_func_df(Y[i]) * (self.correct[i] - Y[i]))
-
+            
             delta1.append(self.activation_func_df(net0) * sum([delta2[i] * self.W11[i] for i in range(3)]))
 
             self.W00[0] += self.norm * 1 * delta1[0]
@@ -81,7 +82,8 @@ class NeuralNetwork:
             for i in range(3):
                 self.W10[i] += self.norm * 1 * delta2[i]
                 self.W11[i] += self.norm * net0 * delta2[i]
-
+            
+            # Оцениваем ср квадратичную ошибку
             error = math.sqrt(sum([(self.correct[i] - Y[i]) ** 2 for i in range(3)]))
             print('Y = ', Y, '\n', 'E(', counter, ') = ', error)
             if error <= 0.0001:
