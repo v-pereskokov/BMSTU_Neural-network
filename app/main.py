@@ -1,11 +1,36 @@
-from neural import BooleanNeural
-from z2 import Z2
+from neural import NetworkHopfield
 
+"""
+ 1  1  1
+-1 -1  1
+ 1  1  1
+ 1 -1 -1
+ 1  1  1
+"""
+WORD_2 = [1, -1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, 1, -1, 1]
 
-def model(vars, AND, OR, NOT):
-    return AND(OR(NOT(vars[0]), OR(NOT(vars[1]), NOT(vars[2]))), OR(NOT(vars[1]), OR(NOT(vars[2]), vars[3])))
+"""
+ 1 -1  1
+ 1 -1  1
+ 1  1  1
+-1 -1  1
+-1 -1  1
+"""
+WORD_4 = [1, 1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1]
 
+"""
+ 1  1  1
+ 1 -1  1
+ 1  1  1
+ 1 -1  1
+ 1  1  1
+"""
+WORD_8 = [1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1]
+
+ERROR_WORD_8 = [-1, 1, 1, 1, -1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1]
 
 if __name__ == "__main__":
-    neural = BooleanNeural(Z2(4).truth_table(model), [1, 9, 15])
-    print(neural.training())
+    network = NetworkHopfield(WORD_2, WORD_4, WORD_8)
+
+    print(network.get_result(WORD_8))
+    print(network.get_result(ERROR_WORD_8))

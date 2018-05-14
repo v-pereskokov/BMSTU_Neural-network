@@ -1,40 +1,46 @@
-from math import *
-import random as rnd
+import numpy as np
 
 
-class Perceptron:
-    norma = 0
-    number_of_inputs = 0
+class NetworkHopfield:
+    words = []
     weights = []
+    y_n_1 = []
 
-    def __init__(self, number_of_inputs, norma):
-        self.number_of_inputs = number_of_inputs
-        self.norma = norma
+    def __init__(self, first, second, third):
+        self.words = [first, second, third]
+        self.init()
 
-        for i in range(number_of_inputs):
-            self.weights.append(float('{:.3f}'.format(rnd.uniform(0, 100) * 0.01)))
+    def init(self):
+        self.weights = sum([np.dot(np.array([word]).transpose(), np.array([word])) for word in self.words])
+        for i in range(len(self.weights)):
+            self.weights[i][i] = 0
 
-        print("weights: ", self.weights)
+        self.y_n_1 = []
 
-    def net(self, x_vector):
-        net = 0
-        for i in range(self.number_of_inputs):
-            net += self.weights[i] * x_vector[i]
+    def net_count(self):
+        result = []
+        for i in range(len(self.y_n_1)):
+            result.append(sum([self.weights[j][i] * self.y_n_1[j] for j in range(len(self.y_n_1))]))
 
-        return net
+        return result
 
-    def out(self, net):
-        return (1 - exp(-net)) / (1 + exp(-net))
+    def out_function(self, net):
+        out = []
+        for i in range(len(self.y_n_1)):
+            if net[i] > 0:
+                cur = 1
+            elif net[i] < 0:
+                cur = -1
+            else:
+                cur = self.y_n_1[i]
+            out.append(cur)
 
-    def delta(self, out, layer):
-        return 0.5 * (1 - out ** 2) * layer
+        return out
 
-    def weights_update(self, x_vector, delta):
-        for i in range(self.number_of_inputs):
-            self.weights[i] += self.norma * delta * x_vector[i]
+    def get_result(self, data):
+        self.y_n_1 = data
 
-    def get_weight(self, index):
-        return self.weights[index]
+        net = self.net_count()
+        result = self.out_function(net)
 
-
-Perceptron(2, 1)
+        return result
