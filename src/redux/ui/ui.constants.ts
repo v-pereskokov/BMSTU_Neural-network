@@ -1,0 +1,1 @@
+export const SET_LOADING_SENDING: string = 'SET_LOADING_SENDING';
