@@ -13,13 +13,7 @@ module.exports = {
   context: sourcePath,
   entry: {
     main: './index.tsx',
-    vendor: [
-      'react',
-      'react-dom',
-      'react-redux',
-      'react-router',
-      'redux'
-    ]
+    vendor: ['react']
   },
   output: {
     path: outPath,
@@ -64,19 +58,6 @@ module.exports = {
                 importLoaders: 1,
                 localIdentName: '[local]__[hash:base64:5]'
               }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                ident: 'postcss',
-                plugins: [
-                  require('postcss-import')({addDependencyTo: Webpack}),
-                  require('postcss-url')(),
-                  require('postcss-cssnext')(),
-                  require('postcss-reporter')(),
-                  require('postcss-browser-reporter')({disabled: isProduction})
-                ]
-              }
             }
           ]
         })
@@ -84,14 +65,6 @@ module.exports = {
       {
         test: /\.html$/,
         use: 'html-loader'
-      },
-      {
-        test: /\.(jpe?g|png|gif|svg)$/i,
-        loader: 'url-loader?limit=10000!img-loader?progressive=true'
-      },
-      {
-        test: /\.(ttf|otf|eot|woff(2)?)(\?[a-z0-9]+)?$/,
-        loader: 'file-loader?name=fonts/[name].[ext]'
       }
     ]
   },
@@ -111,29 +84,8 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: 'index.html'
-    }),
-    new CopyWebpackPlugin([{
-      from: 'static/imgs',
-      to: 'static/imgs'
-    }])
+    })
   ],
-  devServer: {
-    contentBase: sourcePath,
-    disableHostCheck: true,
-    hot: true,
-    stats: {
-      warnings: false
-    },
-    proxy: [{
-      context: ['/api/**'],
-      target: 'https://daniel.taxi.yandex-team.ru',
-      pathRewrite: {'^/api': ''},
-      secure: false,
-      onProxyReq: (proxyReq, req, res) => {
-        proxyReq.setHeader('Host', 'daniel.taxi.yandex-team.ru');
-      }
-    }]
-  },
   node: {
     fs: 'empty',
     net: 'empty'
