@@ -228,9 +228,14 @@ export default class App extends React.Component<any, IState> {
         this.setRect(CLUSTERS[index].x, CLUSTERS[index].y);
         this.setRect(x, y, randomColor());
 
+
         CLUSTERS[index] = {x, y};
         clusterObj[index].center = {x, y};
+
+        const color: string = randomColor();
+        clusterObj[index].dots.forEach(item => this.setCircle(DOTS[item].x, DOTS[item].y, color));
       });
+
       console.log(clusterObj);
       this.setState({preloader: false});
     }, 1000);
@@ -239,6 +244,14 @@ export default class App extends React.Component<any, IState> {
   protected setRect(x: number, y: number, color: string = '#ffffff') {
     this.canvas.fillStyle = color;
     this.canvas.fillRect(x, y, 10, 10);
+  }
+
+  protected setCircle(x: number, y: number, color: string = '#000') {
+    this.canvas.fillStyle = color;
+    this.canvas.beginPath();
+    this.canvas.arc(x, y, 3, 0, Math.PI * 2);
+    this.canvas.closePath();
+    this.canvas.fill();
   }
 }
 
