@@ -4,16 +4,21 @@ import {Button, Col, Input, Layout, Radio, Row, Tooltip} from 'antd';
 const {Content} = Layout;
 const RadioGroup = Radio.Group;
 
+const HEX_SYMBOLS: Array<string> = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
+const CLUSTERS: Array<{ x: number, y: number }> = [];
+const DOTS: Array<{ x: number, y: number }> = [];
+
 interface IState {
   preloader: boolean;
   xDot: string;
   yDot: string;
   xCluster: string;
   yCluster: string;
+  metrika: boolean;
 }
 
 export default class App extends React.Component<any, IState> {
-  private canvas: HTMLCanvasElement;
+  private canvas: CanvasRenderingContext2D;
 
   constructor(props) {
     super(props);
@@ -23,7 +28,8 @@ export default class App extends React.Component<any, IState> {
       xDot: '',
       yDot: '',
       xCluster: '',
-      yCluster: ''
+      yCluster: '',
+      metrika: true
     }
   }
 
@@ -55,7 +61,15 @@ export default class App extends React.Component<any, IState> {
                       <Button
                         icon='plus'
                         type='default'
-                        onClick={() => ''}
+                        onClick={() => {
+                          this.canvas.fillStyle = randomColor();
+                          this.canvas.beginPath();
+                          this.canvas.arc(+xDot, +yDot, 3, 0, Math.PI * 2);
+                          this.canvas.closePath();
+                          this.canvas.fill();
+
+                          DOTS.push({x: +xDot, y: +yDot});
+                        }}
                         style={{width: '100%'}}
                       />
                     </Tooltip>
@@ -94,7 +108,11 @@ export default class App extends React.Component<any, IState> {
                       <Button
                         icon='plus'
                         type='default'
-                        onClick={() => ''}
+                        onClick={() => {
+                          this.canvas.fillStyle = randomColor();
+                          this.canvas.fillRect(+xCluster, +yCluster, 10, 10);
+                          CLUSTERS.push({x: +xCluster, y: +yCluster});
+                        }}
                         style={{width: '100%'}}
                       />
                     </Tooltip>
@@ -122,7 +140,8 @@ export default class App extends React.Component<any, IState> {
                 </Row>
                 <Row>
                   <Col span={6}>
-                    <RadioGroup name="radiogroup" defaultValue={1}>
+                    <RadioGroup name='metrika' defaultValue={1}
+                                onChange={event => this.setState({metrika: +event.target.value === 1})}>
                       <Radio value={1}>Евклид</Radio>
                       <Radio value={2}>Чебышев</Radio>
                     </RadioGroup>
@@ -158,7 +177,7 @@ export default class App extends React.Component<any, IState> {
                   width='600px'
                   height='600px'
                   style={{background: 'white', marginTop: '10px'}}
-                  ref={canvas => this.canvas = canvas}
+                  ref={canvas => this.canvas = canvas ? canvas.getContext('2d') : null}
                 />
               </Col>
             </Row>
@@ -177,4 +196,16 @@ export default class App extends React.Component<any, IState> {
 
 function random(min, max): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function Euclid(a1: { x: number, y: number }, a2: { x: number, y: number }): number {
+  return Math.sqrt(((a1.x - a2.x) + (a1.y - a2.y)) ** 2);
+}
+
+function Chebyshev(a1: { x: number, y: number }, a2: { x: number, y: number }): number {
+  return Math.max(Math.abs(a1.x - a2.x), Math.abs(a1.y - a2.y));
+}
+
+function randomColor(): string {
+  return HEX_SYMBOLS.reduce((color, current, index) => index < 6 ? color + HEX_SYMBOLS[random(0, 15)] : color, '#');
 }
