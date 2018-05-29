@@ -6,8 +6,9 @@ const {Content} = Layout;
 const RadioGroup = Radio.Group;
 
 const HEX_SYMBOLS: Array<string> = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
-const CLUSTERS: Array<{ x: number, y: number }> = [];
-const DOTS: Array<{ x: number, y: number }> = [];
+
+let CLUSTERS: Array<{ x: number, y: number }> = [];
+let DOTS: Array<{ x: number, y: number }> = [];
 
 interface IState {
   xDot: string;
@@ -167,7 +168,12 @@ export default class App extends React.Component<any, IState> {
                   <Button
                     icon='rollback'
                     type='default'
-                    onClick={() => this.canvas.clearRect(0, 0, 600, 600)}
+                    onClick={() => {
+                      DOTS = [];
+                      CLUSTERS = [];
+
+                      this.canvas.clearRect(0, 0, 600, 600);
+                    }}
                     style={{width: '100%'}}
                   />
                 </Tooltip>
@@ -200,6 +206,9 @@ export default class App extends React.Component<any, IState> {
 
     this.setState({preloader: true});
     setTimeout(() => {
+      let clusterObj = {};
+      CLUSTERS.forEach((item, index) => clusterObj[index] = {dots: []});
+
       for (let i in _.range(DOTS.length)) {
         const metriks: Array<any> = [];
 
@@ -208,12 +217,28 @@ export default class App extends React.Component<any, IState> {
           metriks.push(metrika ? Euclid(a1, a2) : Chebyshev(a1, a2));
         }
 
-        const minMetrikIndex: number = metriks.indexOf(Math.min(...metriks));
-        console.log(minMetrikIndex, metriks);
+        clusterObj[metriks.indexOf(Math.min(...metriks))].dots.push(i);
       }
 
+
+      CLUSTERS.forEach((item, index) => {
+        const x: number = clusterObj[index].dots.reduce((sum, current) => sum + DOTS[current].x, 0) / clusterObj[index].dots.length;
+        const y: number = clusterObj[index].dots.reduce((sum, current) => sum + DOTS[current].y, 0) / clusterObj[index].dots.length;
+
+        this.setRect(CLUSTERS[index].x, CLUSTERS[index].y);
+        this.setRect(x, y, randomColor());
+
+        CLUSTERS[index] = {x, y};
+        clusterObj[index].center = {x, y};
+      });
+      console.log(clusterObj);
       this.setState({preloader: false});
     }, 1000);
+  }
+
+  protected setRect(x: number, y: number, color: string = '#ffffff') {
+    this.canvas.fillStyle = color;
+    this.canvas.fillRect(x, y, 10, 10);
   }
 }
 
