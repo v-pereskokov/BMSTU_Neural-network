@@ -246,10 +246,13 @@ export default class App extends React.Component<any, IState> {
   }
 
   protected clusterisation() {
+    // Какая метрика? По Евклиду или Чебышеву
     const {metrika} = this.state;
 
+    // Задем старт прелоадера
     this.setState({preloader: true});
     setTimeout(() => {
+      // Задаем объект с ключами –– индексами кластеров, значениями –– объектами с индексами точек и новым центром
       let clusterObj = {};
       CLUSTERS.forEach((item, index) => clusterObj[index] = {dots: []});
 
@@ -260,11 +263,11 @@ export default class App extends React.Component<any, IState> {
           const [a1, a2] = [DOTS[i], CLUSTERS[j]];
           metriks.push(metrika ? Euclid(a1, a2) : Chebyshev(a1, a2));
         }
-
+        // Находим минимальное расстоение между точкой и кластерами
         clusterObj[metriks.indexOf(Math.min(...metriks))].dots.push(i);
       }
 
-
+      // Обновляем центр кластеров и переотрисовываем их 
       CLUSTERS.forEach((item, index) => {
         const x: number = clusterObj[index].dots.reduce((sum, current) => sum + DOTS[current].x, 0) / clusterObj[index].dots.length;
         const y: number = clusterObj[index].dots.reduce((sum, current) => sum + DOTS[current].y, 0) / clusterObj[index].dots.length;
