@@ -3,7 +3,7 @@
 [Report](/report.md)  
 
 ### Description
-Implementation algorithms of neural network by python 3. And web interface to get result of training systems. 
+Implementation algorithms of neural network by TypeScript. And web interface to get result of training systems. 
 
 ### Seminars
 ```bash
@@ -16,10 +16,6 @@ Example:
 
 ### Development stack
 * Paper and Pencil
-* Python 3.6
-
-
-#### Start
-```bash
-    python<3> app/main.py 
-```
+* TypeScript
+* Canvas API
+* nginx
