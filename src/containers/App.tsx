@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {Button, Col, Input, Layout, Radio, Row, Tooltip} from 'antd';
+import * as _ from 'lodash';
 
 const {Content} = Layout;
 const RadioGroup = Radio.Group;
@@ -9,12 +10,12 @@ const CLUSTERS: Array<{ x: number, y: number }> = [];
 const DOTS: Array<{ x: number, y: number }> = [];
 
 interface IState {
-  preloader: boolean;
   xDot: string;
   yDot: string;
   xCluster: string;
   yCluster: string;
   metrika: boolean;
+  preloader: boolean;
 }
 
 export default class App extends React.Component<any, IState> {
@@ -24,12 +25,12 @@ export default class App extends React.Component<any, IState> {
     super(props);
 
     this.state = {
-      preloader: false,
       xDot: '',
       yDot: '',
       xCluster: '',
       yCluster: '',
-      metrika: true
+      metrika: true,
+      preloader: false
     }
   }
 
@@ -155,8 +156,9 @@ export default class App extends React.Component<any, IState> {
                   <Button
                     icon='check'
                     type='default'
-                    onClick={() => ''}
+                    onClick={() => this.clusterisation()}
                     style={{width: '100%'}}
+                    loading={preloader}
                   />
                 </Tooltip>
               </Col>
@@ -165,7 +167,7 @@ export default class App extends React.Component<any, IState> {
                   <Button
                     icon='rollback'
                     type='default'
-                    onClick={() => ''}
+                    onClick={() => this.canvas.clearRect(0, 0, 600, 600)}
                     style={{width: '100%'}}
                   />
                 </Tooltip>
@@ -191,6 +193,27 @@ export default class App extends React.Component<any, IState> {
     type
       ? this.setState({xDot: random(5, 550).toString(), yDot: random(5, 550).toString()})
       : this.setState({xCluster: random(5, 550).toString(), yCluster: random(5, 550).toString()})
+  }
+
+  protected clusterisation() {
+    const {metrika} = this.state;
+
+    this.setState({preloader: true});
+    setTimeout(() => {
+      for (let i in _.range(DOTS.length)) {
+        const metriks: Array<any> = [];
+
+        for (let j in _.range(CLUSTERS.length)) {
+          const [a1, a2] = [DOTS[i], CLUSTERS[j]];
+          metriks.push(metrika ? Euclid(a1, a2) : Chebyshev(a1, a2));
+        }
+
+        const minMetrikIndex: number = metriks.indexOf(Math.min(...metriks));
+        console.log(minMetrikIndex, metriks);
+      }
+
+      this.setState({preloader: false});
+    }, 1000);
   }
 }
 
