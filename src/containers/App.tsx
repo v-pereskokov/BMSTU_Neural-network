@@ -6,10 +6,30 @@ const RadioGroup = Radio.Group;
 
 interface IState {
   preloader: boolean;
+  xDot: string;
+  yDot: string;
+  xCluster: string;
+  yCluster: string;
 }
 
 export default class App extends React.Component<any, IState> {
+  private canvas: HTMLCanvasElement;
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      preloader: false,
+      xDot: '',
+      yDot: '',
+      xCluster: '',
+      yCluster: ''
+    }
+  }
+
   public render(): JSX.Element {
+    const {preloader, xDot, yDot, xCluster, yCluster} = this.state;
+
     return (
       <Layout style={{minHeight: '100vh'}}>
         <Layout>
@@ -23,10 +43,10 @@ export default class App extends React.Component<any, IState> {
                 </Row>
                 <Row>
                   <Col span={6}>
-                    <Input placeholder='x'/>
+                    <Input placeholder='x' value={xDot} onChange={event => this.setState({xDot: event.target.value})}/>
                   </Col>
                   <Col span={6}>
-                    <Input placeholder='y'/>
+                    <Input placeholder='y' value={yDot} onChange={event => this.setState({yDot: event.target.value})}/>
                   </Col>
                 </Row>
                 <Row>
@@ -45,7 +65,7 @@ export default class App extends React.Component<any, IState> {
                       <Button
                         icon='setting'
                         type='default'
-                        onClick={() => ''}
+                        onClick={() => this.setRandom(true)}
                         style={{width: '100%'}}
                       />
                     </Tooltip>
@@ -60,10 +80,12 @@ export default class App extends React.Component<any, IState> {
                 </Row>
                 <Row>
                   <Col span={6}>
-                    <Input placeholder='x'/>
+                    <Input placeholder='x' value={xCluster}
+                           onChange={event => this.setState({xCluster: event.target.value})}/>
                   </Col>
                   <Col span={6}>
-                    <Input placeholder='y'/>
+                    <Input placeholder='y' value={yCluster}
+                           onChange={event => this.setState({yCluster: event.target.value})}/>
                   </Col>
                 </Row>
                 <Row>
@@ -82,7 +104,7 @@ export default class App extends React.Component<any, IState> {
                       <Button
                         icon='setting'
                         type='default'
-                        onClick={() => ''}
+                        onClick={() => this.setRandom()}
                         style={{width: '100%'}}
                       />
                     </Tooltip>
@@ -130,9 +152,29 @@ export default class App extends React.Component<any, IState> {
                 </Tooltip>
               </Col>
             </Row>
+            <Row>
+              <Col span={12}>
+                <canvas
+                  width='600px'
+                  height='600px'
+                  style={{background: 'white', marginTop: '10px'}}
+                  ref={canvas => this.canvas = canvas}
+                />
+              </Col>
+            </Row>
           </Content>
         </Layout>
       </Layout>
     );
   }
+
+  protected setRandom(type: boolean = false) {
+    type
+      ? this.setState({xDot: random(5, 550).toString(), yDot: random(5, 550).toString()})
+      : this.setState({xCluster: random(5, 550).toString(), yCluster: random(5, 550).toString()})
+  }
+}
+
+function random(min, max): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
